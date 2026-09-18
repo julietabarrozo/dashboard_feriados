@@ -16,6 +16,6 @@ The application provides real-time visibility into holiday usage, pending time-o
 
 ## 💡 Capabilities & Features
 - **Accrual Tracking:** Monitors earned time off generated strictly from confirmed holiday shifts.
-- **Status Management:** Visual indicators distinguishing between consumed (`Usado`) and active (`Pendiente`) compensatory days.
+- **Status Management:** Visual indicators distinguishing between consumed and active compensatory days.
 - **Employee Search:** Dynamic dropdown filter to isolate balance logs for specific team members.
 - **Expiration Control:** Tracks expiration dates to ensure compliance with internal time-off window policies.
