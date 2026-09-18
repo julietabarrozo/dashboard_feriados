@@ -1,54 +1,51 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tracker de Compensatorios 2026</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, sans-serif; }
-  body { background:#f4f6f9; color:#2c3e50; padding:25px; }
-  h1 { text-align:center; margin-bottom:5px; color:#1a2a3a; }
-  .subtitle { text-align:center; color:#7f8c8d; margin-bottom:25px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compensatory Time Tracker 2026</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, sans-serif; }
+    body { background:#f4f6f9; color:#2c3e50; padding:25px; }
+    h1 { text-align:center; margin-bottom:5px; color:#1a2a3a; }
+    .subtitle { text-align:center; color:#7f8c8d; margin-bottom:25px; }
+    .filters { text-align:center; margin-bottom:20px; }
+    .filters select {
+      padding:10px 14px; border-radius:8px; border:1px solid #cfd8dc;
+      font-size:.95rem; background:#fff; cursor:pointer;
+    }
 
-  .filters { text-align:center; margin-bottom:20px; }
-  .filters select {
-    padding:10px 14px; border-radius:8px; border:1px solid #cfd8dc;
-    font-size:.95rem; background:#fff; cursor:pointer;
-  }
+    .table-card {
+      background:#fff; border-radius:14px; padding:20px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.06); overflow-x:auto;
+    }
+    table { width:100%; border-collapse:collapse; }
+    thead th {
+      background:#34495e; color:#fff; padding:14px 12px; text-align:left;
+      font-size:.85rem; text-transform:uppercase; letter-spacing:.5px;
+    }
+    tbody td { padding:13px 12px; border-bottom:1px solid #ecf0f1; font-size:.95rem; }
+    tbody tr:hover { background:#f9fbfd; }
+    .emp-name { font-weight:600; color:#2c3e50; }
 
-  .table-card {
-    background:#fff; border-radius:14px; padding:20px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.06); overflow-x:auto;
-  }
-  table { width:100%; border-collapse:collapse; }
-  thead th {
-    background:#34495e; color:#fff; padding:14px 12px; text-align:left;
-    font-size:.85rem; text-transform:uppercase; letter-spacing:.5px;
-  }
-  tbody td { padding:13px 12px; border-bottom:1px solid #ecf0f1; font-size:.95rem; }
-  tbody tr:hover { background:#f9fbfd; }
-  .emp-name { font-weight:600; color:#2c3e50; }
+    .badge {
+      display:inline-block; padding:4px 12px; border-radius:20px;
+      font-size:.8rem; font-weight:600;
+    }
+    .badge-used    { background:#e8f8f0; color:#27ae60; }
+    .badge-pending { background:#fdedec; color:#e74c3c; }
 
-  .badge {
-    display:inline-block; padding:4px 12px; border-radius:20px;
-    font-size:.8rem; font-weight:600;
-  }
-  .badge-usado    { background:#e8f8f0; color:#27ae60; }
-  .badge-pendiente{ background:#fdedec; color:#e74c3c; }
-
-  .time-ok      { color:#27ae60; font-weight:600; }
-  .time-warning { color:#e67e22; font-weight:600; }
-  .time-danger  { color:#e74c3c; font-weight:600; }
-  .time-done    { color:#95a5a6; }
-</style>
+    .time-ok      { color:#27ae60; font-weight:600; }
+    .time-warning { color:#e67e22; font-weight:600; }
+    .time-danger  { color:#e74c3c; font-weight:600; }
+    .time-done    { color:#95a5a6; }
+  </style>
 </head>
 <body>
-
-  <h1>⏳ Tracker de Compensatorios </h1>
-
+  <h1>⏳ Compensatory Time Tracker</h1>
   <div class="filters">
-    <select id="filtroEmpleado" onchange="renderTabla()">
-      <option value="todos">👥 Todos los empleados</option>
+    <select id="employeeFilter" onchange="renderTable()">
+      <option value="all">👥 All Employees</option>
     </select>
   </div>
 
@@ -56,82 +53,83 @@
     <table>
       <thead>
         <tr>
-          <th>Empleado</th>
-          <th>Feriado trabajado</th>
-          <th>Estado del compensatorio</th>
-	  <th>Vencimiento</th>
-          </tr>
+          <th>Employee</th>
+          <th>Worked Holiday</th>
+          <th>Compensatory Status</th>
+          <th>Expiration Date</th>
+        </tr>
       </thead>
-      <tbody id="tablaBody"></tbody>
+      <tbody id="tableBody"></tbody>
     </table>
   </div>
 
-<script>
-/* ===== DATOS: solo feriados TRABAJADOS (que generan compensatorio) ===== */
-const data = [
-  {emp:"[Nombre del Empleado]",  feriado:"02/04/2026", usado:"Si", venc:"29/09/2026"},
-  {emp:"[Nombre del Empleado]",  feriado:"15/06/2026", usado:"No", venc:"12/12/2026"},
-  {emp:"[Nombre del Empleado]",  feriado:"17/08/2026", usado:"No", venc:"13/02/2027"},
+  <script>
+    /* ===== DATA: Worked holidays generating compensatory days ===== */
+    const data = [
+      {emp:"Employee A (Ops)",  holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
+      {emp:"Employee A (Ops)",  holiday:"06/15/2026", used:"No",  exp:"12/12/2026"},
+      {emp:"Employee A (Ops)",  holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
+      
+      {emp:"Employee B (HR)",   holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
+      {emp:"Employee B (HR)",   holiday:"06/15/2026", used:"No",  exp:"12/12/2026"},
+      {emp:"Employee B (HR)",   holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
+      
+      {emp:"Employee C (Tech)", holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
+      {emp:"Employee C (Tech)", holiday:"06/15/2026", used:"Yes", exp:"12/12/2026"},
+      {emp:"Employee C (Tech)", holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
+    ];
 
-  {emp:"[Nombre del Empleado]",   feriado:"02/04/2026", usado:"Si", venc:"29/09/2026"},
-  {emp:"[Nombre del Empleado]",   feriado:"15/06/2026", usado:"No", venc:"12/12/2026"},
-  {emp:"[Nombre del Empleado]",   feriado:"17/08/2026", usado:"No", venc:"13/02/2027"},
+    /* ===== Utilities ===== */
+    function parseDate(str){
+      const [m,d,y] = str.split("/").map(Number);
+      return new Date(y, m-1, d);
+    }
 
-  {emp:"[Nombre del Empleado]",   feriado:"02/04/2026", usado:"Si", venc:"29/09/2026"},
-  {emp:"[Nombre del Empleado]",   feriado:"15/06/2026", usado:"Si", venc:"12/12/2026"},
-  {emp:"[Nombre del Empleado]",   feriado:"17/08/2026", usado:"No", venc:"13/02/2027"},
-];
+    function remainingTime(expStr, used){
+      if(used === "Yes") return {text:"✔ Used", cssClass:"time-done"};
+      const today = new Date();
+      const exp = parseDate(expStr);
+      const days = Math.ceil((exp - today) / (1000*60*60*24));
+      
+      if(days < 0) return {text:`⚠ Expired ${Math.abs(days)} days ago`, cssClass:"time-danger"};
+      return {text:`🟢 Pending`, cssClass:"time-done"};
+    }
 
-/* ===== Utilidades ===== */
-function parseFecha(str){
-  const [d,m,y] = str.split("/").map(Number);
-  return new Date(y, m-1, d);
-}
+    /* ===== Populate employee dropdown ===== */
+    const employees = [...new Set(data.map(d => d.emp))];
+    const filter = document.getElementById("employeeFilter");
+    employees.forEach(e => {
+      const opt = document.createElement("option");
+      opt.value = e; 
+      opt.textContent = e;
+      filter.appendChild(opt);
+    });
 
-function tiempoRestante(vencStr, usado){
-  if(usado === "Si") return {texto:"✔ Usado", clase:"time-done"};
-  const hoy = new Date();
-  const venc = parseFecha(vencStr);
-  const dias = Math.ceil((venc - hoy) / (1000*60*60*24));
+    /* ===== Table Render ===== */
+    function renderTable(){
+      const sel = filter.value;
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
 
-  if(dias < 0)  return {texto:`⚠ Vencido hace ${Math.abs(dias)} días`, clase:"time-danger"};
-  return {texto:`🟢 Pendiente`, clase:"time-done"};
-}
+      const rows = data.filter(d => sel === "all" || d.emp === sel);
 
-/* ===== Poblar filtro de empleados ===== */
-const empleados = [...new Set(data.map(d => d.emp))];
-const filtro = document.getElementById("filtroEmpleado");
-empleados.forEach(e => {
-  const opt = document.createElement("option");
-  opt.value = e; opt.textContent = e;
-  filtro.appendChild(opt);
-});
+      rows.forEach(d => {
+        const badge = d.used === "Yes"
+          ? '<span class="badge badge-used">Used</span>'
+          : '<span class="badge badge-pending">Pending</span>';
 
-/* ===== Render de la tabla ===== */
-/* ===== Render de la tabla ===== */
-function renderTabla(){
-  const sel = filtro.value;
-  const tbody = document.getElementById("tablaBody");
-  tbody.innerHTML = "";
+        tbody.innerHTML += `
+          <tr>
+            <td class="emp-name">${d.emp}</td>
+            <td>${d.holiday}</td>
+            <td>${badge}</td>
+            <td>${d.exp}</td>
+          </tr>`;
+      });
+    }
 
-  const filas = data.filter(d => sel === "todos" || d.emp === sel);
-
-  filas.forEach(d => {
-    const badge = d.usado === "Si"
-      ? '<span class="badge badge-usado">Usado</span>'
-      : '<span class="badge badge-pendiente">Pendiente</span>';
-
-    tbody.innerHTML += `
-      <tr>
-        <td class="emp-name">${d.emp}</td>
-        <td>${d.feriado}</td>
-        <td>${badge}</td>
-        <td>${d.venc}</td>
-      </tr>`;
-  });
-}
-
-renderTabla();
-</script>
+    renderTable();
+  </script>
 </body>
 </html>
+
