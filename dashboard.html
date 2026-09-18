@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Compensatory Time Tracker 2026</title>
+  <title>Compensatory Days Tracker 2026</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, sans-serif; }
     body { background:#f4f6f9; color:#2c3e50; padding:25px; }
@@ -42,7 +42,7 @@
   </style>
 </head>
 <body>
-  <h1>⏳ Compensatory Time Tracker</h1>
+  <h1>⏳ Compensatory Days Tracker</h1>
   <div class="filters">
     <select id="employeeFilter" onchange="renderTable()">
       <option value="all">👥 All Employees</option>
@@ -66,17 +66,17 @@
   <script>
     /* ===== DATA: Worked holidays generating compensatory days ===== */
     const data = [
-      {emp:"Employee A (Ops)",  holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
-      {emp:"Employee A (Ops)",  holiday:"06/15/2026", used:"No",  exp:"12/12/2026"},
-      {emp:"Employee A (Ops)",  holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
+      {emp:"Employee A",  holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
+      {emp:"Employee A",  holiday:"06/15/2026", used:"No",  exp:"12/12/2026"},
+      {emp:"Employee A",  holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
       
-      {emp:"Employee B (HR)",   holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
-      {emp:"Employee B (HR)",   holiday:"06/15/2026", used:"No",  exp:"12/12/2026"},
-      {emp:"Employee B (HR)",   holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
+      {emp:"Employee B",   holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
+      {emp:"Employee B",   holiday:"06/15/2026", used:"No",  exp:"12/12/2026"},
+      {emp:"Employee B",   holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
       
-      {emp:"Employee C (Tech)", holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
-      {emp:"Employee C (Tech)", holiday:"06/15/2026", used:"Yes", exp:"12/12/2026"},
-      {emp:"Employee C (Tech)", holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
+      {emp:"Employee C", holiday:"04/02/2026", used:"Yes", exp:"09/29/2026"},
+      {emp:"Employee C", holiday:"06/15/2026", used:"Yes", exp:"12/12/2026"},
+      {emp:"Employee C", holiday:"08/17/2026", used:"No",  exp:"02/13/2027"},
     ];
 
     /* ===== Utilities ===== */
