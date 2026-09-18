@@ -8,7 +8,6 @@ The application provides real-time visibility into holiday usage, pending time-o
 ---
 
 ## 🛠️ Key Technical Specifications
-- **Frontend Stack:** HTML5, CSS3, Vanilla JavaScript (ES6+).
 - **Interface Design:** Responsive, card-based layout with visual status badges and dynamically rendered data tables.
 - **Data Filtering:** Client-side JavaScript filtering by individual employee.
 
