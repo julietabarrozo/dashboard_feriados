@@ -1,4 +1,4 @@
-# ⏳ Holiday Compensatory Time Tracker
+# ⏳ Holiday Compensatory Days Tracker
 
 ## 📌 Overview
 An interactive web dashboard designed to track and manage compensatory days off accrued by employees for working on holidays. 
